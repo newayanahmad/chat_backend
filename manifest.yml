@@ -1,0 +1,4 @@
+---
+applications:
+ - name: Chat App
+   memory: 256M
