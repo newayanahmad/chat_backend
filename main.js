@@ -5,7 +5,7 @@ const io = require('socket.io')(http);
 
 
 app.get('/', (req, res) => {
-    res.send("hello world")
+    res.send("hello render")
 });
 // Keep track of all connected users
 const connectedUsers = {};
