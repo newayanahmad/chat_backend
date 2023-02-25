@@ -3,6 +3,10 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+
+app.get('/', (req, res) => {
+    res.send("hello world")
+});
 // Keep track of all connected users
 const connectedUsers = {};
 
@@ -59,6 +63,7 @@ io.on('connection', (socket) => {
         io.emit('user-list', Object.values(connectedUsers));
     });
 });
+
 
 http.listen(8080, "0.0.0.0", () => {
     console.log('listening on *:8080');
