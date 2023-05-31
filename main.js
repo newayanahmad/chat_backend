@@ -11,8 +11,9 @@ app.get('/', (req, res) => {
 const connectedUsers = {};
 
 io.on('connection', (socket) => {
-    console.log(socket.handshake.auth);
-    console.log('a user connected');
+    // console.log(socket.handshake.auth);
+    // console.log('a user connected');
+
 
     // Get the email and name from the socket's handshake data
     const { email, name } = socket.handshake.auth;
@@ -32,10 +33,7 @@ io.on('connection', (socket) => {
 
     // When a user sends a message
     socket.on("message", (data) => {
-        console.table(data);
         if (connectedUsers[data.toUser] != undefined) {
-
-            console.table(connectedUsers[data.toUser].id);
             // io.emit("event", { data: data.msg })
             io.to(connectedUsers[data['toUser']].id).emit("event", { data: data.msg, email: data.toUser })
         }
@@ -47,8 +45,6 @@ io.on('connection', (socket) => {
 
     // When a user disconnects
     socket.on('disconnect', () => {
-        console.log('user disconnected');
-        console.table(connectedUsers);
 
         // Find the email of the disconnected user
         const disconnectedUserEmail = Object.keys(connectedUsers).find(
@@ -58,7 +54,6 @@ io.on('connection', (socket) => {
         // Remove the socket from the list of connected users
         delete connectedUsers[disconnectedUserEmail];
 
-        console.table(connectedUsers);
         // Emit the updated list of connected users to all sockets
         io.emit('user-list', Object.values(connectedUsers));
     });
